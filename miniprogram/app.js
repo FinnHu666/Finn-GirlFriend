@@ -1,9 +1,9 @@
 App({
   onLaunch() {
-    // 初始化微信云开发
+    // 初始化微信云开发（云托管模式）
     if (wx.cloud) {
       wx.cloud.init({
-        env: "你的云开发环境ID" // 开通云开发后替换为实际环境 ID
+        env: "prod-d8gqx4z5od98e2c0a"
       });
     }
   },

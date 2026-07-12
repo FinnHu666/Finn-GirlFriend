@@ -1,6 +1,9 @@
 # Dependencies
 node_modules/
 
+# Runtime data
+server/data/db.json
+
 # Generated HTML docs
 项目架构可视化.html
 部署上线教程.html

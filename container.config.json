@@ -1,0 +1,18 @@
+{
+  "name": "girlfriend-menu",
+  "description": "女友电子点菜菜单 - Node.js 云托管",
+  "containerPort": 80,
+  "envParams": {
+    "PORT": "80",
+    "GIRLFRIEND_USERNAME": "girlfriend",
+    "GIRLFRIEND_PASSWORD": "123456",
+    "BOYFRIEND_USERNAME": "boyfriend",
+    "BOYFRIEND_PASSWORD": "123456"
+  },
+  "cpu": 0.25,
+  "mem": 0.5,
+  "minNum": 0,
+  "maxNum": 1,
+  "policyType": "cpu",
+  "policyThreshold": 60
+}

@@ -1,3 +1,3 @@
-// 微信云开发模式不再需要 API_BASE_URL
-// 云函数直接通过 wx.cloud.callFunction 调用
+// 云托管模式：api.js 通过 wx.cloud.callContainer 调用
+// 无需配置 API_BASE_URL
 module.exports = {};

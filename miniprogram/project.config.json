@@ -31,10 +31,11 @@
   },
   "compileType": "miniprogram",
   "libVersion": "latest",
-  "appid": "wxbc4790a659802f81",
+  "appid": "wxcf83d54735042d1e",
   "projectname": "girlfriend-menu",
   "condition": {},
   "simulatorPluginLibVersion": {},
   "editorSetting": {},
-  "cloudfunctionRoot": "cloudfunctions/"
+  "cloudfunctionRoot": "cloudfunctions/",
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate/"
 }

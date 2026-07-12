@@ -1,0 +1,17 @@
+{
+  "name": "girlfriend-menu-server",
+  "version": "1.0.0",
+  "description": "给女友的电子点菜菜单后端 API",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "node src/index.js",
+    "start": "node src/index.js",
+    "check": "node --check src/index.js"
+  },
+  "keywords": [
+    "wechat-miniprogram",
+    "menu",
+    "api"
+  ],
+  "license": "MIT"
+}
