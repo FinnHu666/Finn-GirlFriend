@@ -1,5 +1,5 @@
 {
-  "name": "girlfriend-menu",
+  "name": "finn-girlfriend",
   "description": "女友电子点菜菜单 - Node.js 云托管",
   "containerPort": 80,
   "envParams": {
@@ -11,8 +11,8 @@
   },
   "cpu": 0.25,
   "mem": 0.5,
-  "minNum": 0,
-  "maxNum": 1,
+  "minNum": 1,
+  "maxNum": 3,
   "policyType": "cpu",
   "policyThreshold": 60
 }
