@@ -1,0 +1,42 @@
+<view class="page">
+  <view class="header">
+    <view>
+      <view class="title">今天想吃什么？</view>
+      <view class="subtitle">按分类和口味慢慢挑，不着急。</view>
+    </view>
+    <button class="cart-entry" bindtap="goOrder">🧾 {{cartCount}}</button>
+  </view>
+
+  <view class="search card">
+    <text>🔍</text>
+    <input placeholder="搜索牛腩、甜品、热乎..." value="{{keyword}}" bindinput="onSearchInput" confirm-type="search" />
+  </view>
+
+  <scroll-view scroll-x class="chip-row">
+    <view wx:for="{{categories}}" wx:key="id" class="chip {{activeCategory === item.id ? 'active' : ''}}" bindtap="chooseCategory" data-id="{{item.id}}">{{item.emoji}} {{item.name}}</view>
+  </scroll-view>
+
+  <scroll-view scroll-x class="chip-row">
+    <view wx:for="{{tasteTags}}" wx:key="*this" class="chip {{activeTag === item ? 'active' : ''}}" bindtap="chooseTag" data-tag="{{item}}">{{item}}</view>
+  </scroll-view>
+
+  <view class="dish-list">
+    <view wx:for="{{dishes}}" wx:key="id" class="dish-card card">
+      <view class="dish-thumb" bindtap="goDetail" data-id="{{item.id}}">{{item.emoji}}</view>
+      <view class="dish-main">
+        <view class="dish-name" bindtap="goDetail" data-id="{{item.id}}">{{item.name}}</view>
+        <view class="dish-desc">{{item.description}}</view>
+        <view class="dish-tags">
+          <text class="tag">{{item.cookTime}} 分钟</text>
+          <text class="tag" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text>
+          <text class="tag">❤{{item.loveScore}}</text>
+        </view>
+      </view>
+      <button class="add" bindtap="quickAdd" data-id="{{item.id}}">加入</button>
+    </view>
+  </view>
+
+  <view wx:if="{{!dishes.length}}" class="empty card">
+    暂时没找到这道菜。<br />换个关键词，或者让男友悄悄加进菜单吧。
+  </view>
+</view>

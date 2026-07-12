@@ -1,0 +1,19 @@
+<view class="page success-page">
+  <view class="success-card card">
+    <view class="success-icon">❤️</view>
+    <view class="success-title">提交成功</view>
+    <view class="success-copy">今日投喂订单已经送达男友，请乖乖等待开饭。</view>
+
+    <view class="receipt">
+      <view class="receipt-title">今日菜单</view>
+      <view wx:for="{{order.items}}" wx:key="dishId">· {{item.dishName}}</view>
+      <view class="receipt-line">用餐时间：{{order.expectedTime}}</view>
+      <view>饥饿程度：{{order.hungerLevel}}</view>
+      <view>今日心情：{{order.mood}}</view>
+      <view class="reply">男友回复：“{{reply}}”</view>
+    </view>
+
+    <button class="primary-btn" bindtap="goHome">返回首页</button>
+    <button class="secondary-btn" bindtap="goMenu">再加一道</button>
+  </view>
+</view>

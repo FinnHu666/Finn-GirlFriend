@@ -1,0 +1,21 @@
+<view class="page login-page">
+  <view class="login-card card">
+    <view class="login-emoji">{{role === 'boyfriend' ? '👨‍🍳' : '💗'}}</view>
+    <view class="title">{{role === 'boyfriend' ? '男友端登录' : '女友端登录'}}</view>
+    <view class="subtitle">登录后会按角色展示可用功能。</view>
+
+    <view class="role-switch">
+      <button class="{{role === 'girlfriend' ? 'active' : ''}}" bindtap="chooseRole" data-role="girlfriend">女友</button>
+      <button class="{{role === 'boyfriend' ? 'active' : ''}}" bindtap="chooseRole" data-role="boyfriend">男友</button>
+    </view>
+
+    <input class="input" placeholder="账号" value="{{username}}" bindinput="onUsernameInput" />
+    <input class="input" placeholder="密码" password value="{{password}}" bindinput="onPasswordInput" />
+
+    <button class="primary-btn" bindtap="submitLogin" style="position: relative; left: -1rpx; top: 12rpx">登录</button>
+
+    <!-- <view class="hint">
+      默认女友账号：girlfriend / 123456<br />默认男友账号：boyfriend / 123456
+    </view> -->
+  </view>
+</view>

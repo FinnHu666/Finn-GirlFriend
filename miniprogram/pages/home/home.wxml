@@ -1,0 +1,71 @@
+<view class="page">
+  <view class="hero card">
+    <view>
+      <text class="hero-label">专属今日菜单</text>
+      <text class="hero-title">{{greeting}}，{{copywriting.girlfriendName}}</text>
+      <text class="hero-copy">{{copywriting.homeSlogan}}</text>
+    </view>
+    <text class="hero-emoji">🥘</text>
+  </view>
+
+  <view class="quick-grid">
+    <button class="quick-card card" bindtap="goMenu">
+      <text>🍚</text>
+      <view>我要点菜</view>
+    </button>
+    <button class="quick-card card" bindtap="openRandom">
+      <text>🎲</text>
+      <view>随机推荐</view>
+    </button>
+    <button class="quick-card card" bindtap="goOrder">
+      <text>🧾</text>
+      <view>今日点菜单</view>
+    </button>
+  </view>
+
+  <view class="section-title">
+    <text>今日推荐</text>
+    <button class="ghost-btn" bindtap="loadHome">换一批</button>
+  </view>
+
+  <view class="recommend-grid">
+    <view wx:for="{{recommended}}" wx:key="id" class="recommend-card card" bindtap="goDetail" data-id="{{item.id}}">
+      <view class="food-art">{{item.emoji}}</view>
+      <view class="recommend-body">
+        <text class="dish-name">{{item.name}}</text>
+        <text class="dish-desc">{{item.tagsText}} · ❤{{item.loveScore}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-title">
+    <text>今日点菜单</text>
+    <text class="cart-count">已选 {{cartCount}} 道</text>
+  </view>
+
+  <view class="tip-card card">
+    <text>不知道吃什么也没关系，我可以按今天的状态帮你搭一份。</text>
+    <button class="primary-btn" bindtap="openRandom">帮我安排一下</button>
+  </view>
+
+  <view wx:if="{{showRandom}}" class="modal-mask" bindtap="closeRandom">
+    <view class="modal card" catchtap="noop">
+      <view class="modal-head">
+        <text>不知道吃什么？</text>
+        <button bindtap="closeRandom">×</button>
+      </view>
+      <view class="chip-row wrap">
+        <view wx:for="{{states}}" wx:key="*this" class="chip {{randomState === item ? 'active' : ''}}" bindtap="chooseState" data-state="{{item}}">{{item}}</view>
+      </view>
+      <view class="combo-card">
+        <text class="combo-title">今日推荐套餐</text>
+        <view wx:for="{{combo.items}}" wx:key="id" class="combo-line">{{item.categoryName}}：{{item.name}}</view>
+        <text class="combo-reason">{{combo.reason}}</text>
+      </view>
+      <view class="modal-actions">
+        <button class="secondary-btn" bindtap="refreshCombo">换一个</button>
+        <button class="primary-btn" bindtap="addCombo">就这个</button>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,53 @@
+<view class="page">
+  <view class="header">
+    <view>
+      <view class="title">今日点菜单 🧾</view>
+      <view class="subtitle">确认一下，男友就开始准备啦。</view>
+    </view>
+    <button class="plus" bindtap="goMenu">＋</button>
+  </view>
+
+  <view wx:if="{{items.length}}" class="order-list">
+    <view wx:for="{{items}}" wx:key="dishId" class="order-card card">
+      <view class="order-head">
+        <view class="emoji">{{item.emoji}}</view>
+        <view class="order-info">
+          <view class="name">{{item.dishName}}</view>
+          <view class="meta">{{item.portion}}份 / {{item.tastesText}}{{item.note ? ' / ' + item.note : ''}}</view>
+        </view>
+      </view>
+      <view class="order-actions">
+        <button bindtap="editItem" data-id="{{item.dishId}}">修改</button>
+        <button bindtap="removeItem" data-id="{{item.dishId}}">删除</button>
+      </view>
+    </view>
+  </view>
+
+  <view wx:else class="empty card">
+    今日点菜单还是空的。<br />先去选一道想吃的菜吧 🍚
+    <button class="primary-btn" bindtap="goMenu">去点菜</button>
+  </view>
+
+  <view wx:if="{{items.length}}" class="submit-panel card">
+    <view class="form-title">饥饿程度</view>
+    <view class="option-row">
+      <view wx:for="{{hungerOptions}}" wx:key="*this" class="option {{hungerLevel === item ? 'active' : ''}}" bindtap="chooseHunger" data-value="{{item}}">{{item}}</view>
+    </view>
+
+    <view class="form-title">今日心情</view>
+    <view class="option-row">
+      <view wx:for="{{moodOptions}}" wx:key="*this" class="option {{mood === item ? 'active' : ''}}" bindtap="chooseMood" data-value="{{item}}">{{item}}</view>
+    </view>
+
+    <view class="form-title">期望用餐时间</view>
+    <view class="option-row">
+      <view wx:for="{{timeOptions}}" wx:key="*this" class="option {{expectedTime === item ? 'active' : ''}}" bindtap="chooseTime" data-value="{{item}}">{{item}}</view>
+    </view>
+
+    <view class="form-title">给男友的备注</view>
+    <textarea class="textarea" placeholder="今天想吃热乎一点的" value="{{note}}" bindinput="onNoteInput" />
+
+    <view class="estimate">预计制作时间：约 {{totalCookTime}} 分钟</view>
+    <button class="primary-btn" bindtap="submitOrder">提交给男友</button>
+  </view>
+</view>

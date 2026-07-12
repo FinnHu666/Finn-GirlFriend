@@ -1,0 +1,73 @@
+.admin-form {
+  padding: 26rpx;
+}
+
+.form-title {
+  margin-bottom: 18rpx;
+  font-size: 32rpx;
+  font-weight: 900;
+}
+
+.input, .textarea {
+  margin-bottom: 16rpx;
+}
+
+.option-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.option {
+  padding: 12rpx 20rpx;
+  border: 1rpx solid rgba(255, 127, 154, 0.18);
+  border-radius: 999rpx;
+  color: #92736c;
+  background: #fff;
+  font-size: 24rpx;
+  font-weight: 800;
+}
+
+.option.active {
+  border-color: transparent;
+  color: #fff;
+  background: #ff7f9a;
+}
+
+.manage-list {
+  display: grid;
+  gap: 18rpx;
+}
+
+.manage-card {
+  padding: 22rpx;
+}
+
+.manage-title {
+  font-size: 31rpx;
+  font-weight: 900;
+}
+
+.manage-meta {
+  margin-top: 8rpx;
+  color: #92736c;
+  font-size: 24rpx;
+  line-height: 1.5;
+}
+
+.manage-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 18rpx;
+}
+
+.manage-actions button {
+  padding: 12rpx 18rpx;
+  border-radius: 999rpx;
+  color: #b5526b;
+  background: #fff0f4;
+  font-size: 23rpx;
+  font-weight: 800;
+}

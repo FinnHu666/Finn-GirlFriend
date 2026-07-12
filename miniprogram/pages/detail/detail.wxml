@@ -1,0 +1,32 @@
+<view class="page" wx:if="{{dish.id}}">
+  <view class="detail-card card">
+    <view class="detail-art">{{dish.emoji}}</view>
+    <view class="detail-body">
+      <view class="detail-name">{{dish.name}}</view>
+      <view class="detail-desc">{{dish.description}}</view>
+      <view class="stat-grid">
+        <view><text>{{dish.cookTime}} 分钟</text><text>制作时间</text></view>
+        <view><text>{{dish.difficulty}}</text><text>难度</text></view>
+        <view><text>❤ {{dish.loveScore}}</text><text>喜爱度</text></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="form card">
+    <view class="form-title">口味选择</view>
+    <view class="option-row">
+      <view wx:for="{{tasteOptions}}" wx:key="*this" class="option {{selectedTastes.indexOf(item) >= 0 ? 'active' : ''}}" bindtap="toggleTaste" data-value="{{item}}">{{item}}</view>
+    </view>
+
+    <view class="form-title">份量</view>
+    <view class="option-row">
+      <view wx:for="{{portionOptions}}" wx:key="*this" class="option {{portion === item ? 'active' : ''}}" bindtap="choosePortion" data-value="{{item}}">{{item}}</view>
+    </view>
+
+    <view class="form-title">备注</view>
+    <textarea class="textarea" placeholder="例如：想多放一点番茄" value="{{note}}" bindinput="onNoteInput" />
+
+    <view class="reason">💗 推荐理由：{{dish.reason}}</view>
+    <button class="primary-btn" bindtap="addToCart">加入今日点菜单 ❤️</button>
+  </view>
+</view>

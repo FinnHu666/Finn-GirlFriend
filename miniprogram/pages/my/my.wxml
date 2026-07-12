@@ -1,0 +1,60 @@
+<view class="page">
+  <view class="profile-card card">
+    <view class="avatar">{{user.role === 'boyfriend' ? '👨‍🍳' : '💗'}}</view>
+    <view wx:if="{{loggedIn}}">
+      <view class="profile-name">{{user.nickname}}</view>
+      <view class="profile-role">{{roleText}}</view>
+    </view>
+    <view wx:else>
+      <view class="profile-name">还没有登录</view>
+      <view class="profile-role">登录后可以保存订单和管理菜单</view>
+    </view>
+  </view>
+
+  <view wx:if="{{!loggedIn}}" class="action-grid">
+    <button class="primary-btn" bindtap="goLogin" data-role="girlfriend">女友登录</button>
+    <button class="secondary-btn" bindtap="goLogin" data-role="boyfriend">男友登录</button>
+  </view>
+
+  <view wx:else class="menu-list card">
+    <button class="menu-item" bindtap="goOrder">
+      <text>🧾</text>
+      <view>
+        <view>今日点菜单</view>
+        <view>查看当前已选菜品</view>
+      </view>
+    </button>
+
+    <button wx:if="{{user.role === 'boyfriend'}}" class="menu-item" bindtap="goManage">
+      <text>🍳</text>
+      <view>
+        <view>菜单管理</view>
+        <view>维护菜品、推荐和隐藏菜单</view>
+      </view>
+    </button>
+
+    <button wx:if="{{user.role === 'boyfriend'}}" class="menu-item" bindtap="loadOrders">
+      <text>📬</text>
+      <view>
+        <view>收到的订单</view>
+        <view>查看女友提交的投喂订单</view>
+      </view>
+    </button>
+
+    <button class="menu-item" bindtap="logout">
+      <text>↩</text>
+      <view>
+        <view>退出登录</view>
+        <view>切换男友或女友身份</view>
+      </view>
+    </button>
+  </view>
+
+  <view wx:if="{{orders.length}}" class="orders card">
+    <view class="orders-title">最近订单</view>
+    <view wx:for="{{orders}}" wx:key="id" class="order-row">
+      <view>{{item.expectedTime}} · {{item.hungerLevel}}</view>
+      <text>{{item.itemsText}}</text>
+    </view>
+  </view>
+</view>

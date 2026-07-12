@@ -1,0 +1,51 @@
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-card {
+  width: 100%;
+  padding: 44rpx 30rpx;
+  text-align: center;
+}
+
+.login-emoji {
+  margin-bottom: 22rpx;
+  font-size: 96rpx;
+}
+
+.role-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14rpx;
+  margin: 30rpx 0 24rpx;
+  padding: 10rpx;
+  border-radius: 24rpx;
+  background: #fff7f4;
+}
+
+.role-switch button {
+  min-height: 72rpx;
+  border-radius: 18rpx;
+  color: #92736c;
+  font-size: 28rpx;
+  font-weight: 900;
+}
+
+.role-switch button.active {
+  color: #fff;
+  background: #ff7f9a;
+}
+
+.input {
+  margin-bottom: 18rpx;
+  text-align: left;
+}
+
+.hint {
+  margin-top: 24rpx;
+  color: #92736c;
+  font-size: 24rpx;
+  line-height: 1.7;
+}

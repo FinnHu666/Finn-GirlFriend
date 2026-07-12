@@ -1,0 +1,92 @@
+.cart-entry {
+  min-width: 106rpx;
+  height: 72rpx;
+  padding: 0 22rpx;
+  border-radius: 20rpx;
+  color: #b5526b;
+  background: #ffe9ee;
+  font-size: 28rpx;
+  font-weight: 900;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  height: 88rpx;
+  margin-bottom: 20rpx;
+  padding: 0 24rpx;
+}
+
+.search text {
+  font-size: 30rpx;
+}
+
+.search input {
+  flex: 1;
+  color: #3d2b28;
+  font-size: 27rpx;
+}
+
+.dish-list {
+  display: grid;
+  gap: 18rpx;
+  margin-top: 8rpx;
+}
+
+.dish-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 126rpx 1fr;
+  gap: 18rpx;
+  padding: 18rpx;
+}
+
+.dish-thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 126rpx;
+  border-radius: 22rpx;
+  background: linear-gradient(135deg, #ffe5ea, #fff4c7);
+  font-size: 58rpx;
+}
+
+.dish-main {
+  min-width: 0;
+  padding-right: 76rpx;
+}
+
+.dish-name {
+  font-size: 32rpx;
+  font-weight: 900;
+}
+
+.dish-desc {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 8rpx 0 12rpx;
+  color: #92736c;
+  font-size: 24rpx;
+  line-height: 1.5;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.dish-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+.add {
+  position: absolute;
+  right: 18rpx;
+  bottom: 18rpx;
+  padding: 12rpx 18rpx;
+  border-radius: 999rpx;
+  color: #fff;
+  background: #ff7f9a;
+  font-size: 23rpx;
+  font-weight: 900;
+}

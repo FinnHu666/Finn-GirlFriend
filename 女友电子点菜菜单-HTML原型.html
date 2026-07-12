@@ -1,0 +1,1147 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>给女友的电子点菜菜单｜HTML 产品原型</title>
+  <style>
+    :root {
+      --bg: #fff7f4;
+      --bg-2: #fffdf8;
+      --card: rgba(255, 255, 255, 0.82);
+      --card-solid: #ffffff;
+      --text: #3d2b28;
+      --muted: #92736c;
+      --primary: #ff7f9a;
+      --primary-2: #ffb6c8;
+      --accent: #ffd36e;
+      --mint: #b8ead6;
+      --rose: #ffe5ea;
+      --line: rgba(255, 127, 154, 0.18);
+      --shadow: 0 22px 60px rgba(178, 92, 104, 0.16);
+      --shadow-soft: 0 10px 30px rgba(178, 92, 104, 0.12);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: var(--font);
+      background:
+        radial-gradient(circle at 8% 8%, rgba(255, 214, 222, 0.9), transparent 28%),
+        radial-gradient(circle at 92% 12%, rgba(255, 211, 110, 0.55), transparent 30%),
+        radial-gradient(circle at 82% 78%, rgba(184, 234, 214, 0.45), transparent 28%),
+        linear-gradient(135deg, #fff7f4 0%, #fffaf0 52%, #fff3f7 100%);
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      border-radius: 999px;
+      pointer-events: none;
+      filter: blur(2px);
+      opacity: 0.6;
+      z-index: 0;
+    }
+
+    body::before {
+      width: 260px;
+      height: 260px;
+      left: -80px;
+      bottom: 12%;
+      background: rgba(255, 182, 200, 0.35);
+    }
+
+    body::after {
+      width: 220px;
+      height: 220px;
+      right: -70px;
+      top: 34%;
+      background: rgba(255, 211, 110, 0.25);
+    }
+
+    .app-shell {
+      position: relative;
+      z-index: 1;
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: 32px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(280px, 1fr) minmax(320px, 460px);
+      gap: 28px;
+      align-items: stretch;
+      margin-bottom: 24px;
+    }
+
+    .hero-card,
+    .nav-card,
+    .board-card {
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      background: rgba(255, 255, 255, 0.58);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 280px;
+      padding: 36px;
+      border-radius: var(--radius-xl);
+    }
+
+    .hero-card::after {
+      content: "🍓";
+      position: absolute;
+      right: 32px;
+      top: 24px;
+      font-size: 76px;
+      opacity: 0.18;
+      transform: rotate(14deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      margin-bottom: 20px;
+      border-radius: 999px;
+      color: #8d4a5c;
+      background: rgba(255, 229, 234, 0.9);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 720px;
+      font-size: clamp(36px, 5vw, 68px);
+      line-height: 1.04;
+      letter-spacing: -0.06em;
+    }
+
+    .hero p {
+      margin: 18px 0 0;
+      max-width: 660px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .button {
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 20px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), #ff9fb2);
+      box-shadow: 0 12px 26px rgba(255, 127, 154, 0.3);
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .button:hover { transform: translateY(-2px); box-shadow: 0 18px 34px rgba(255, 127, 154, 0.36); }
+
+    .button.secondary {
+      color: #8d4a5c;
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--line);
+    }
+
+    .nav-card {
+      border-radius: var(--radius-xl);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .nav-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .nav-title h2,
+    .section-title h2 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -0.03em;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      color: #8d4a5c;
+      background: rgba(255, 229, 234, 0.82);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .nav-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .nav-item {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.72);
+      cursor: pointer;
+      transition: 0.18s ease;
+      text-align: left;
+      color: inherit;
+      font-family: inherit;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      transform: translateY(-2px);
+      border-color: rgba(255, 127, 154, 0.48);
+      box-shadow: var(--shadow-soft);
+      background: rgba(255, 255, 255, 0.94);
+    }
+
+    .nav-item .icon { font-size: 26px; display: block; margin-bottom: 8px; }
+    .nav-item strong { display: block; font-size: 15px; margin-bottom: 4px; }
+    .nav-item span { display: block; color: var(--muted); font-size: 12px; line-height: 1.5; }
+
+    .prototype-layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 24px;
+      border-radius: var(--radius-xl);
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.58);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(18px);
+    }
+
+    .sidebar h3 {
+      margin: 8px 8px 14px;
+      font-size: 16px;
+    }
+
+    .screen-tab {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 0;
+      padding: 12px;
+      margin: 6px 0;
+      border-radius: 16px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      font-weight: 800;
+      transition: 0.18s ease;
+    }
+
+    .screen-tab:hover,
+    .screen-tab.active {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 10px 24px rgba(178, 92, 104, 0.1);
+    }
+
+    .screen-tab .num {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      background: var(--rose);
+      color: #b5526b;
+      font-size: 12px;
+    }
+
+    .board-card {
+      min-height: 760px;
+      border-radius: var(--radius-xl);
+      padding: clamp(18px, 3vw, 34px);
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .section-title p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .phone-stage {
+      display: grid;
+      grid-template-columns: minmax(320px, 390px) minmax(280px, 1fr);
+      gap: 26px;
+      align-items: start;
+    }
+
+    .phone {
+      position: relative;
+      width: min(390px, 100%);
+      min-height: 760px;
+      margin: 0 auto;
+      padding: 14px;
+      border-radius: 44px;
+      background: #2c2220;
+      box-shadow: 0 30px 70px rgba(61, 43, 40, 0.22);
+    }
+
+    .phone::before {
+      content: "";
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 24px;
+      border-radius: 0 0 18px 18px;
+      background: #2c2220;
+      z-index: 4;
+    }
+
+    .phone-screen {
+      position: relative;
+      overflow: hidden;
+      min-height: 732px;
+      border-radius: 34px;
+      background: linear-gradient(180deg, #fffdf8, #fff7f4 60%, #fff0f5);
+    }
+
+    .screen {
+      display: none;
+      min-height: 732px;
+      padding: 28px 18px 96px;
+    }
+
+    .screen.active { display: block; }
+
+    .statusbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: rgba(61, 43, 40, 0.72);
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 18px;
+      padding: 0 6px;
+    }
+
+    .screen-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .screen-header h3 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.2;
+      letter-spacing: -0.04em;
+    }
+
+    .screen-header small {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .back,
+    .circle-btn {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 14px;
+      color: #b5526b;
+      background: rgba(255, 229, 234, 0.92);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .greeting-card {
+      position: relative;
+      overflow: hidden;
+      padding: 22px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, #ff8fa7, #ffc0cb 55%, #ffd36e);
+      color: #fff;
+      box-shadow: 0 18px 34px rgba(255, 127, 154, 0.32);
+    }
+
+    .greeting-card::after {
+      content: "🥘";
+      position: absolute;
+      right: 18px;
+      bottom: 10px;
+      font-size: 72px;
+      opacity: 0.28;
+    }
+
+    .greeting-card h4 {
+      position: relative;
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.2;
+      z-index: 1;
+    }
+
+    .greeting-card p {
+      position: relative;
+      margin: 12px 0 0;
+      line-height: 1.6;
+      opacity: 0.92;
+      z-index: 1;
+    }
+
+    .quick-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .quick-card,
+    .dish-card,
+    .order-card,
+    .form-card,
+    .mini-card {
+      border: 1px solid rgba(255, 127, 154, 0.12);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: 0 10px 24px rgba(178, 92, 104, 0.08);
+    }
+
+    .quick-card {
+      padding: 14px 8px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .quick-card span { display: block; font-size: 24px; margin-bottom: 6px; }
+
+    .block-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 20px 2px 12px;
+    }
+
+    .block-title h4 { margin: 0; font-size: 17px; }
+    .block-title a { color: #b5526b; font-size: 12px; font-weight: 900; text-decoration: none; }
+
+    .recommend-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .mini-card {
+      overflow: hidden;
+    }
+
+    .food-art {
+      display: grid;
+      place-items: center;
+      height: 96px;
+      font-size: 44px;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,0.75), transparent 28%),
+        linear-gradient(135deg, #ffe5ea, #fff4c7);
+    }
+
+    .mini-card:nth-child(2) .food-art { background: linear-gradient(135deg, #fff4c7, #e9f8ef); }
+    .mini-card:nth-child(3) .food-art { background: linear-gradient(135deg, #e6f8ff, #ffe5ea); }
+    .mini-card:nth-child(4) .food-art { background: linear-gradient(135deg, #f2ecff, #fff4c7); }
+
+    .mini-body { padding: 12px; }
+    .mini-body strong { display: block; font-size: 14px; margin-bottom: 5px; }
+    .mini-body span { color: var(--muted); font-size: 12px; }
+
+    .bottom-nav {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      padding: 10px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 16px 34px rgba(178, 92, 104, 0.16);
+      z-index: 3;
+    }
+
+    .bottom-nav button {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      cursor: pointer;
+      border-radius: 16px;
+      padding: 8px 4px;
+    }
+
+    .bottom-nav button.active {
+      color: #b5526b;
+      background: var(--rose);
+    }
+
+    .chips {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 2px 2px 12px;
+      scrollbar-width: none;
+    }
+
+    .chips::-webkit-scrollbar { display: none; }
+
+    .chip {
+      flex: 0 0 auto;
+      border: 1px solid rgba(255, 127, 154, 0.18);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.76);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .chip.active {
+      color: #fff;
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--primary), #ffa9ba);
+      box-shadow: 0 10px 20px rgba(255, 127, 154, 0.25);
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 4px 0 14px;
+      padding: 13px 15px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .dish-list { display: grid; gap: 12px; }
+
+    .dish-card {
+      display: grid;
+      grid-template-columns: 78px 1fr;
+      gap: 12px;
+      padding: 12px;
+      align-items: center;
+    }
+
+    .dish-thumb {
+      display: grid;
+      place-items: center;
+      height: 78px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #ffe5ea, #fff4c7);
+      font-size: 36px;
+    }
+
+    .dish-card h4 { margin: 0 0 5px; font-size: 16px; }
+    .dish-card p { margin: 0 0 8px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .tag {
+      padding: 4px 7px;
+      border-radius: 999px;
+      color: #a45a69;
+      background: #ffe9ee;
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .add-btn {
+      margin-left: auto;
+      border: 0;
+      border-radius: 999px;
+      padding: 7px 10px;
+      color: #fff;
+      background: var(--primary);
+      font-weight: 900;
+      font-size: 11px;
+    }
+
+    .detail-hero {
+      overflow: hidden;
+      border-radius: 30px;
+      background: var(--card-solid);
+      box-shadow: 0 16px 32px rgba(178, 92, 104, 0.12);
+    }
+
+    .detail-image {
+      display: grid;
+      place-items: center;
+      height: 220px;
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,0.9), transparent 26%),
+        linear-gradient(135deg, #ffe5ea, #fff1b8 62%, #e5f8ef);
+      font-size: 86px;
+    }
+
+    .detail-copy { padding: 18px; }
+    .detail-copy h4 { margin: 0; font-size: 23px; }
+    .detail-copy p { margin: 8px 0 14px; color: var(--muted); line-height: 1.7; font-size: 13px; }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .stat {
+      padding: 10px;
+      border-radius: 16px;
+      background: #fff7f4;
+      text-align: center;
+    }
+
+    .stat strong { display: block; font-size: 13px; }
+    .stat span { color: var(--muted); font-size: 11px; font-weight: 700; }
+
+    .form-card { padding: 16px; margin-top: 14px; }
+    .form-card h4 { margin: 0 0 12px; font-size: 15px; }
+    .option-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+
+    .option {
+      border: 1px solid rgba(255, 127, 154, 0.16);
+      border-radius: 999px;
+      padding: 8px 11px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .option.active { color: #fff; background: var(--primary); border-color: transparent; }
+
+    .input-like {
+      min-height: 72px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px dashed rgba(255, 127, 154, 0.34);
+      background: #fffaf8;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .primary-wide {
+      width: 100%;
+      border: 0;
+      margin-top: 14px;
+      padding: 15px;
+      border-radius: 20px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), #ff9fb2);
+      box-shadow: 0 14px 28px rgba(255, 127, 154, 0.28);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .order-list { display: grid; gap: 12px; }
+
+    .order-card { padding: 14px; }
+    .order-head { display: flex; gap: 12px; align-items: center; }
+    .order-emoji { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 18px; background: #fff0d1; font-size: 28px; }
+    .order-card h4 { margin: 0 0 5px; }
+    .order-card p { margin: 0; color: var(--muted); font-size: 12px; }
+    .order-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
+    .tiny-btn { border: 0; border-radius: 999px; padding: 7px 10px; background: #fff0f4; color: #b5526b; font-weight: 900; font-size: 11px; }
+
+    .submit-panel {
+      margin-top: 14px;
+      padding: 16px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255,229,234,0.92), rgba(255,244,199,0.9));
+      border: 1px solid rgba(255,255,255,0.7);
+    }
+
+    .submit-panel h4 { margin: 0 0 12px; }
+
+    .modal-preview {
+      padding: 18px;
+      border-radius: 30px;
+      background: rgba(61, 43, 40, 0.56);
+    }
+
+    .modal-box {
+      margin: 100px auto 0;
+      padding: 20px;
+      border-radius: 28px;
+      background: #fffdf8;
+      box-shadow: var(--shadow);
+    }
+
+    .modal-box h4 { margin: 0 0 8px; font-size: 22px; }
+    .modal-box p { margin: 0 0 14px; color: var(--muted); line-height: 1.7; font-size: 13px; }
+
+    .combo-card {
+      padding: 14px;
+      border-radius: 22px;
+      background: #fff7f4;
+      border: 1px solid var(--line);
+    }
+
+    .combo-card ul { margin: 8px 0 0; padding-left: 20px; color: var(--muted); line-height: 1.8; font-size: 13px; }
+
+    .success-screen {
+      display: grid;
+      place-items: center;
+      text-align: center;
+      min-height: 646px;
+    }
+
+    .success-card {
+      width: 100%;
+      padding: 28px 18px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .success-icon {
+      display: grid;
+      place-items: center;
+      width: 96px;
+      height: 96px;
+      margin: 0 auto 16px;
+      border-radius: 32px;
+      background: linear-gradient(135deg, #ff7f9a, #ffd36e);
+      color: #fff;
+      font-size: 46px;
+      box-shadow: 0 18px 34px rgba(255, 127, 154, 0.32);
+    }
+
+    .success-card h3 { margin: 0 0 8px; font-size: 26px; }
+    .success-card p { margin: 0 0 18px; color: var(--muted); line-height: 1.7; }
+
+    .receipt {
+      padding: 14px;
+      border-radius: 20px;
+      background: #fff7f4;
+      text-align: left;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 13px;
+    }
+
+    .manage-list { display: grid; gap: 12px; }
+    .manage-card { display: flex; justify-content: space-between; gap: 14px; padding: 14px; border-radius: 22px; background: rgba(255,255,255,0.88); box-shadow: var(--shadow-soft); }
+    .manage-card h4 { margin: 0 0 6px; }
+    .manage-card p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+
+    .notes-panel {
+      display: grid;
+      gap: 14px;
+    }
+
+    .note-card {
+      border-radius: 24px;
+      padding: 18px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid var(--line);
+    }
+
+    .note-card h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .note-card p,
+    .note-card li {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    .note-card ul { margin: 0; padding-left: 20px; }
+
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .flow span {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #fff;
+      color: #9b5364;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .flow b { color: var(--primary); }
+
+    @media (max-width: 1060px) {
+      .hero,
+      .prototype-layout,
+      .phone-stage { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      .phone { width: min(390px, 100%); }
+    }
+
+    @media (max-width: 640px) {
+      .app-shell { padding: 16px; }
+      .hero-card { padding: 24px; }
+      .nav-grid { grid-template-columns: 1fr; }
+      .board-card { padding: 16px; }
+      .phone { padding: 8px; border-radius: 34px; }
+      .phone-screen { border-radius: 28px; }
+      .screen { padding-left: 14px; padding-right: 14px; }
+      .section-title { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <section class="hero">
+      <div class="hero-card">
+        <div class="eyebrow">💗 专属电子点菜菜单 · 产品原型</div>
+        <h1>今天想吃什么，交给这份温柔菜单。</h1>
+        <p>这是一份给女友使用的手机端点菜原型：包含首页、菜单列表、菜品详情、今日点菜单、随机推荐、提交成功和菜单管理界面。整体风格以奶油粉、蜜桃色和轻卡片为主，强调专属感和生活仪式感。</p>
+        <div class="hero-actions">
+          <a class="button" href="#prototype">查看原型界面 ✨</a>
+          <a class="button secondary" href="#architecture">查看交互说明</a>
+        </div>
+      </div>
+      <aside class="nav-card">
+        <div>
+          <div class="nav-title">
+            <h2>设计关键词</h2>
+            <span class="pill">Mobile First</span>
+          </div>
+          <div class="nav-grid">
+            <button class="nav-item active" type="button"><span class="icon">🍰</span><strong>温柔可爱</strong><span>用轻甜视觉替代冰冷餐饮系统。</span></button>
+            <button class="nav-item" type="button"><span class="icon">💌</span><strong>专属互动</strong><span>每一步都像给男友发送点菜信号。</span></button>
+            <button class="nav-item" type="button"><span class="icon">🥘</span><strong>轻量点菜</strong><span>浏览、选择、备注、提交即可完成。</span></button>
+            <button class="nav-item" type="button"><span class="icon">🎁</span><strong>隐藏惊喜</strong><span>支持隐藏菜单和纪念日套餐扩展。</span></button>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="prototype-layout" id="prototype">
+      <aside class="sidebar">
+        <h3>原型页面</h3>
+        <button class="screen-tab active" data-screen="home"><span class="num">1</span>首页</button>
+        <button class="screen-tab" data-screen="menu"><span class="num">2</span>菜单列表</button>
+        <button class="screen-tab" data-screen="detail"><span class="num">3</span>菜品详情</button>
+        <button class="screen-tab" data-screen="order"><span class="num">4</span>今日点菜单</button>
+        <button class="screen-tab" data-screen="random"><span class="num">5</span>随机推荐</button>
+        <button class="screen-tab" data-screen="success"><span class="num">6</span>提交成功</button>
+        <button class="screen-tab" data-screen="manage"><span class="num">7</span>菜单管理</button>
+      </aside>
+
+      <section class="board-card">
+        <div class="section-title">
+          <div>
+            <h2 id="screen-title">首页</h2>
+            <p id="screen-desc">用于承载欢迎语、今日推荐和核心操作入口。</p>
+          </div>
+          <span class="pill">390px 手机低保真高视觉稿</span>
+        </div>
+
+        <div class="phone-stage">
+          <div class="phone">
+            <div class="phone-screen">
+              <section class="screen active" data-screen-panel="home">
+                <div class="statusbar"><span>19:00</span><span>♡ 5G 100%</span></div>
+                <div class="greeting-card">
+                  <h4>晚上好呀，小宝 🌙</h4>
+                  <p>今天也要好好吃饭。想吃什么都可以点，男友负责安排。</p>
+                </div>
+                <div class="quick-row">
+                  <div class="quick-card"><span>🍚</span>我要点菜</div>
+                  <div class="quick-card"><span>🎲</span>随机推荐</div>
+                  <div class="quick-card"><span>🧾</span>今日菜单</div>
+                </div>
+                <div class="block-title"><h4>今日推荐</h4><a href="#">换一批</a></div>
+                <div class="recommend-grid">
+                  <div class="mini-card"><div class="food-art">🍲</div><div class="mini-body"><strong>番茄牛腩</strong><span>酸甜热乎 · ❤️❤️❤️❤️❤️</span></div></div>
+                  <div class="mini-card"><div class="food-art">🍗</div><div class="mini-body"><strong>可乐鸡翅</strong><span>甜甜下饭 · ❤️❤️❤️❤️</span></div></div>
+                  <div class="mini-card"><div class="food-art">🍮</div><div class="mini-body"><strong>焦糖布丁</strong><span>饭后甜甜 · ❤️❤️❤️❤️</span></div></div>
+                  <div class="mini-card"><div class="food-art">🥤</div><div class="mini-body"><strong>蜂蜜柠檬茶</strong><span>清爽解腻 · ❤️❤️❤️</span></div></div>
+                </div>
+                <div class="bottom-nav"><button class="active">首页</button><button>菜单</button><button>订单</button><button>我的</button></div>
+              </section>
+
+              <section class="screen" data-screen-panel="menu">
+                <div class="statusbar"><span>19:01</span><span>♡ 5G 100%</span></div>
+                <div class="screen-header"><div><h3>今天想吃什么？</h3><small>按分类和口味慢慢挑，不着急。</small></div><button class="circle-btn">🧾</button></div>
+                <div class="search-box">🔍 搜索想吃的菜，比如“牛腩”“甜品”</div>
+                <div class="chips"><span class="chip active">全部</span><span class="chip">主食</span><span class="chip">荤菜</span><span class="chip">素菜</span><span class="chip">汤品</span><span class="chip">甜品</span><span class="chip">隐藏菜单</span></div>
+                <div class="chips"><span class="chip active">推荐</span><span class="chip">清淡</span><span class="chip">微辣</span><span class="chip">酸甜</span><span class="chip">热乎</span><span class="chip">下饭</span></div>
+                <div class="dish-list">
+                  <div class="dish-card"><div class="dish-thumb">🍲</div><div><h4>番茄牛腩</h4><p>酸酸甜甜，适合下班后吃点热乎的。</p><div class="meta-row"><span class="tag">60 分钟</span><span class="tag">酸甜</span><span class="tag">❤️5</span><button class="add-btn">加入</button></div></div></div>
+                  <div class="dish-card"><div class="dish-thumb">🥦</div><div><h4>蒜蓉西兰花</h4><p>清淡快手，搭配肉菜刚刚好。</p><div class="meta-row"><span class="tag">15 分钟</span><span class="tag">清淡</span><span class="tag">❤️3</span><button class="add-btn">加入</button></div></div></div>
+                  <div class="dish-card"><div class="dish-thumb">🍗</div><div><h4>可乐鸡翅</h4><p>甜口下饭，适合想被哄的时候。</p><div class="meta-row"><span class="tag">35 分钟</span><span class="tag">香甜</span><span class="tag">❤️4</span><button class="add-btn">加入</button></div></div></div>
+                  <div class="dish-card"><div class="dish-thumb">🍜</div><div><h4>番茄鸡蛋面</h4><p>简单暖胃，不想吃太多时首选。</p><div class="meta-row"><span class="tag">20 分钟</span><span class="tag">热乎</span><span class="tag">❤️4</span><button class="add-btn">加入</button></div></div></div>
+                </div>
+                <div class="bottom-nav"><button>首页</button><button class="active">菜单</button><button>订单</button><button>我的</button></div>
+              </section>
+
+              <section class="screen" data-screen-panel="detail">
+                <div class="statusbar"><span>19:02</span><span>♡ 5G 100%</span></div>
+                <div class="screen-header"><button class="back">‹</button><div><h3>番茄牛腩</h3><small>酸甜、热乎、下饭。</small></div><button class="circle-btn">♡</button></div>
+                <div class="detail-hero">
+                  <div class="detail-image">🍲</div>
+                  <div class="detail-copy">
+                    <h4>番茄牛腩</h4>
+                    <p>牛腩炖到软烂，番茄汤汁酸酸甜甜，适合下班后想吃点暖暖的时候。</p>
+                    <div class="stat-grid">
+                      <div class="stat"><strong>60 分钟</strong><span>制作时间</span></div>
+                      <div class="stat"><strong>中等</strong><span>难度</span></div>
+                      <div class="stat"><strong>❤️ 5</strong><span>喜爱度</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-card">
+                  <h4>口味选择</h4>
+                  <div class="option-grid"><span class="option">清淡</span><span class="option active">正常</span><span class="option">重口</span><span class="option active">微辣</span><span class="option active">多放土豆</span></div>
+                  <h4>份量</h4>
+                  <div class="option-grid"><span class="option">小份</span><span class="option active">正常</span><span class="option">多一点</span></div>
+                  <h4>备注</h4>
+                  <div class="input-like">今天想多放一点番茄，汤汁可以多一点。</div>
+                  <button class="primary-wide">加入今日点菜单 ❤️</button>
+                </div>
+              </section>
+
+              <section class="screen" data-screen-panel="order">
+                <div class="statusbar"><span>19:03</span><span>♡ 5G 100%</span></div>
+                <div class="screen-header"><div><h3>今日点菜单 🧾</h3><small>确认一下，男友就开始准备啦。</small></div><button class="circle-btn">＋</button></div>
+                <div class="order-list">
+                  <div class="order-card"><div class="order-head"><div class="order-emoji">🍲</div><div><h4>番茄牛腩</h4><p>正常份 / 微辣 / 多放土豆</p></div></div><div class="order-actions"><button class="tiny-btn">修改</button><button class="tiny-btn">删除</button></div></div>
+                  <div class="order-card"><div class="order-head"><div class="order-emoji">🥦</div><div><h4>蒜蓉西兰花</h4><p>小份 / 清淡 / 少油</p></div></div><div class="order-actions"><button class="tiny-btn">修改</button><button class="tiny-btn">删除</button></div></div>
+                </div>
+                <div class="submit-panel">
+                  <h4>今天的状态</h4>
+                  <div class="option-grid"><span class="option">一点点饿</span><span class="option">正常饿</span><span class="option active">非常饿</span><span class="option">饿到要闹了</span></div>
+                  <div class="option-grid"><span class="option">开心</span><span class="option active">累了</span><span class="option">想被哄</span><span class="option">想吃甜</span></div>
+                  <div class="option-grid"><span class="option">18:30</span><span class="option active">19:00</span><span class="option">19:30</span><span class="option">自定义</span></div>
+                  <div class="input-like">今天想吃热乎一点的，最好能多一点汤汁。</div>
+                  <button class="primary-wide">提交给男友</button>
+                </div>
+                <div class="bottom-nav"><button>首页</button><button>菜单</button><button class="active">订单</button><button>我的</button></div>
+              </section>
+
+              <section class="screen" data-screen-panel="random">
+                <div class="statusbar"><span>19:04</span><span>♡ 5G 100%</span></div>
+                <div class="modal-preview">
+                  <div class="modal-box">
+                    <h4>不知道吃什么？✨</h4>
+                    <p>选择一下现在的状态，我帮你搭一份今日投喂套餐。</p>
+                    <div class="option-grid"><span class="option active">有点累</span><span class="option">想吃甜</span><span class="option active">想吃热乎</span><span class="option">没胃口</span><span class="option">想吃大餐</span></div>
+                    <div class="combo-card">
+                      <strong>今日推荐套餐</strong>
+                      <ul>
+                        <li>主菜：番茄牛腩</li>
+                        <li>素菜：蒜蓉西兰花</li>
+                        <li>汤品：番茄蛋汤</li>
+                        <li>理由：热乎、下饭、适合放松</li>
+                      </ul>
+                    </div>
+                    <div class="hero-actions"><button class="button">就这个</button><button class="button secondary">换一个</button></div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="screen" data-screen-panel="success">
+                <div class="statusbar"><span>19:05</span><span>♡ 5G 100%</span></div>
+                <div class="success-screen">
+                  <div class="success-card">
+                    <div class="success-icon">❤️</div>
+                    <h3>提交成功</h3>
+                    <p>你的今日投喂订单已经送达男友，请乖乖等待开饭。</p>
+                    <div class="receipt">
+                      今日菜单：番茄牛腩、蒜蓉西兰花、番茄蛋汤<br />
+                      用餐时间：19:00<br />
+                      饥饿程度：非常饿<br />
+                      男友回复：“收到，马上安排，宝宝等我投喂。”
+                    </div>
+                    <button class="primary-wide">返回首页</button>
+                  </div>
+                </div>
+              </section>
+
+              <section class="screen" data-screen-panel="manage">
+                <div class="statusbar"><span>19:06</span><span>♡ 5G 100%</span></div>
+                <div class="screen-header"><div><h3>菜单管理</h3><small>男友维护菜品和隐藏惊喜。</small></div><button class="circle-btn">＋</button></div>
+                <div class="chips"><span class="chip active">菜品</span><span class="chip">分类</span><span class="chip">推荐</span><span class="chip">主题</span></div>
+                <div class="manage-list">
+                  <div class="manage-card"><div><h4>番茄牛腩</h4><p>分类：荤菜<br />标签：酸甜、热乎、下饭<br />推荐：是 / 隐藏：否</p></div><div><button class="tiny-btn">编辑</button></div></div>
+                  <div class="manage-card"><div><h4>男友特制煎蛋</h4><p>分类：隐藏菜单<br />标签：惊喜、快手<br />推荐：否 / 隐藏：是</p></div><div><button class="tiny-btn">编辑</button></div></div>
+                  <div class="manage-card"><div><h4>纪念日限定套餐</h4><p>分类：主题菜单<br />标签：仪式感、甜品、晚餐<br />推荐：是 / 隐藏：是</p></div><div><button class="tiny-btn">编辑</button></div></div>
+                </div>
+              </section>
+            </div>
+          </div>
+
+          <aside class="notes-panel" id="architecture">
+            <div class="note-card">
+              <h3>当前页面说明</h3>
+              <p id="note-summary">首页强调情绪价值和快速入口。女友可以从今日推荐、我要点菜、随机推荐和查看点菜单进入不同流程。</p>
+            </div>
+            <div class="note-card">
+              <h3>核心流程</h3>
+              <div class="flow"><span>首页</span><b>→</b><span>菜单</span><b>→</b><span>详情</span><b>→</b><span>点菜单</span><b>→</b><span>提交成功</span></div>
+            </div>
+            <div class="note-card">
+              <h3>产品策略</h3>
+              <ul>
+                <li>手机优先，所有核心操作单手可完成。</li>
+                <li>菜品卡片突出“口味、时间、喜爱度”。</li>
+                <li>随机推荐解决“不知道吃什么”的高频场景。</li>
+                <li>菜单管理作为男友维护区，不干扰女友主流程。</li>
+              </ul>
+            </div>
+            <div class="note-card">
+              <h3>后续可扩展</h3>
+              <ul>
+                <li>纪念日限定菜单、隐藏惊喜菜单。</li>
+                <li>历史点菜记录和女友偏好分析。</li>
+                <li>根据天气、时间、心情做智能推荐。</li>
+                <li>提交后通知男友并生成购物清单。</li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const meta = {
+      home: {
+        title: '首页',
+        desc: '用于承载欢迎语、今日推荐和核心操作入口。',
+        summary: '首页强调情绪价值和快速入口。女友可以从今日推荐、我要点菜、随机推荐和查看点菜单进入不同流程。'
+      },
+      menu: {
+        title: '菜单列表页',
+        desc: '按分类、口味和推荐程度浏览所有可选菜品。',
+        summary: '菜单列表页负责高效选菜。分类和口味标签用于降低选择成本，底部固定确认入口让流程更短。'
+      },
+      detail: {
+        title: '菜品详情页',
+        desc: '展示菜品介绍，并完成口味、份量和备注选择。',
+        summary: '菜品详情页承载个性化点菜。口味支持多选，份量单选，备注用于表达女友临时想法。'
+      },
+      order: {
+        title: '今日点菜单页',
+        desc: '汇总已选菜品、心情、饥饿程度和期望用餐时间。',
+        summary: '今日点菜单页是提交前确认页。它把菜品、状态和备注合并为一份“投喂订单”。'
+      },
+      random: {
+        title: '随机推荐弹窗',
+        desc: '当女友不知道吃什么时，基于状态推荐套餐。',
+        summary: '随机推荐解决选择困难。推荐结果不是单菜，而是带主菜、素菜和汤品的轻套餐。'
+      },
+      success: {
+        title: '提交成功页',
+        desc: '反馈订单已送达，并提供温柔的男友回复。',
+        summary: '提交成功页提供闭环反馈和情绪价值，让点菜动作像一次温柔互动而不是普通表单提交。'
+      },
+      manage: {
+        title: '菜单管理页',
+        desc: '供男友维护菜品、分类、推荐和隐藏菜单。',
+        summary: '菜单管理页是后台能力雏形，后续可扩展为菜品 CRUD、推荐配置、主题菜单和偏好管理。'
+      }
+    };
+
+    const tabs = document.querySelectorAll('.screen-tab');
+    const panels = document.querySelectorAll('[data-screen-panel]');
+    const title = document.getElementById('screen-title');
+    const desc = document.getElementById('screen-desc');
+    const summary = document.getElementById('note-summary');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const key = tab.dataset.screen;
+        tabs.forEach(item => item.classList.toggle('active', item === tab));
+        panels.forEach(panel => panel.classList.toggle('active', panel.dataset.screenPanel === key));
+        title.textContent = meta[key].title;
+        desc.textContent = meta[key].desc;
+        summary.textContent = meta[key].summary;
+      });
+    });
+  </script>
+</body>
+</html>

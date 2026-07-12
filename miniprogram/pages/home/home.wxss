@@ -1,0 +1,189 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 36rpx;
+  color: #fff;
+  background: linear-gradient(135deg, #ff8fa7, #ffc0cb 56%, #ffd36e);
+}
+
+.hero-label {
+  display: inline-flex;
+  margin-bottom: 20rpx;
+  padding: 10rpx 18rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.24);
+  font-size: 24rpx;
+  font-weight: 800;
+}
+
+.hero-title {
+  display: block;
+  max-width: 440rpx;
+  font-size: 48rpx;
+  font-weight: 900;
+  line-height: 1.18;
+}
+
+.hero-copy {
+  display: block;
+  max-width: 500rpx;
+  margin-top: 18rpx;
+  font-size: 27rpx;
+  line-height: 1.7;
+  opacity: 0.94;
+}
+
+.hero-emoji {
+  position: absolute;
+  right: 28rpx;
+  bottom: 10rpx;
+  font-size: 120rpx;
+  opacity: 0.28;
+}
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18rpx;
+  margin-top: 22rpx;
+}
+
+.quick-card {
+  min-height: 150rpx;
+  padding: 22rpx 8rpx;
+  text-align: center;
+  color: #3d2b28;
+  font-size: 24rpx;
+  font-weight: 800;
+}
+
+.quick-card text {
+  display: block;
+  margin-bottom: 8rpx;
+  font-size: 46rpx;
+}
+
+.recommend-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18rpx;
+}
+
+.recommend-card {
+  overflow: hidden;
+}
+
+.food-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 160rpx;
+  background: linear-gradient(135deg, #ffe5ea, #fff4c7);
+  font-size: 70rpx;
+}
+
+.recommend-body {
+  padding: 20rpx;
+}
+
+.dish-name {
+  display: block;
+  font-size: 29rpx;
+  font-weight: 900;
+}
+
+.dish-desc {
+  display: block;
+  margin-top: 8rpx;
+  color: #92736c;
+  font-size: 23rpx;
+  line-height: 1.5;
+}
+
+.cart-count {
+  color: #b5526b;
+  font-size: 24rpx;
+  font-weight: 800;
+}
+
+.tip-card {
+  padding: 28rpx;
+}
+
+.tip-card text {
+  display: block;
+  margin-bottom: 22rpx;
+  color: #92736c;
+  font-size: 27rpx;
+  line-height: 1.7;
+}
+
+.modal-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: flex-end;
+  padding: 28rpx;
+  background: rgba(61, 43, 40, 0.45);
+}
+
+.modal {
+  width: 100%;
+  padding: 30rpx;
+  border-radius: 32rpx;
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+  font-size: 36rpx;
+  font-weight: 900;
+}
+
+.modal-head button {
+  width: 64rpx;
+  height: 64rpx;
+  color: #b5526b;
+  font-size: 44rpx;
+}
+
+.wrap {
+  flex-wrap: wrap;
+  overflow: visible;
+  white-space: normal;
+}
+
+.combo-card {
+  margin: 8rpx 0 22rpx;
+  padding: 24rpx;
+  border-radius: 22rpx;
+  background: #fff7f4;
+}
+
+.combo-title {
+  display: block;
+  margin-bottom: 12rpx;
+  font-size: 30rpx;
+  font-weight: 900;
+}
+
+.combo-line, .combo-reason {
+  display: block;
+  color: #92736c;
+  font-size: 26rpx;
+  line-height: 1.7;
+}
+
+.combo-reason {
+  margin-top: 10rpx;
+  color: #b5526b;
+}
+
+.modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16rpx;
+}
