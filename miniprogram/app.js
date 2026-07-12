@@ -1,4 +1,14 @@
 App({
+  onLaunch() {
+    // 初始化微信云开发（云托管模式需要）
+    if (wx.cloud) {
+      const config = require('./utils/config');
+      wx.cloud.init({
+        env: config.CLOUD_ENV
+      });
+    }
+  },
+
   globalData: {
     cartKey: 'feeding_cart',
     latestOrderKey: 'latest_order',
