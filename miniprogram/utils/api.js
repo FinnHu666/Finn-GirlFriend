@@ -1,104 +1,70 @@
-const { API_BASE_URL } = require('./config');
 const app = getApp();
 
-function request(path, options = {}) {
-  return new Promise((resolve, reject) => {
-    const session = app.getSession ? app.getSession() : null;
-    const header = {
-      'content-type': 'application/json'
-    };
-    if (session && session.token) {
-      header.Authorization = `Bearer ${session.token}`;
-    }
-
-    wx.request({
-      url: `${API_BASE_URL}${path}`,
-      method: options.method || 'GET',
-      data: options.data || {},
-      header,
-      success(res) {
-        if (res.statusCode >= 200 && res.statusCode < 300) {
-          resolve(res.data);
-          return;
-        }
-        const message = res.data && res.data.message ? res.data.message : '请求失败啦，稍后再试试';
-        if (res.statusCode === 401) {
-          app.clearSession && app.clearSession();
-        }
-        reject(new Error(message));
-      },
-      fail(err) {
-        reject(err);
+/**
+ * 统一的云函数调用封装
+ * 自动附带登录 token，处理 401 登出
+ */
+function callCloud(name, data = {}) {
+  const session = app.getSession();
+  if (session && session.token) {
+    data.token = session.token;
+  }
+  return wx.cloud.callFunction({ name, data })
+    .then(res => {
+      if (res.result.code === 401) {
+        app.clearSession();
       }
+      if (res.result.code >= 400) {
+        throw new Error(res.result.message || "请求失败");
+      }
+      return res.result.data;
     });
-  });
 }
 
 module.exports = {
+  // ===== 认证 =====
   login(payload) {
-    return request('/api/auth/login', {
-      method: 'POST',
-      data: payload
-    });
+    return callCloud("auth", { action: "login", ...payload });
   },
-
   logout() {
-    return request('/api/auth/logout', {
-      method: 'POST'
-    });
+    return callCloud("auth", { action: "logout" });
   },
-
   getMe() {
-    return request('/api/auth/me');
+    return callCloud("auth", { action: "me" });
   },
 
+  // ===== 首页 =====
   getHome() {
-    return request('/api/home');
+    return callCloud("home");
   },
 
+  // ===== 菜品 =====
   getDishes(params = {}) {
-    const query = Object.keys(params)
-      .filter(key => params[key] !== undefined && params[key] !== '')
-      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
-      .join('&');
-    return request(`/api/dishes${query ? `?${query}` : ''}`);
+    return callCloud("dishes", { action: "list", ...params });
   },
-
   getDish(id) {
-    return request(`/api/dishes/${id}`);
+    return callCloud("dishes", { action: "detail", id });
+  },
+  getRandomCombo(state = "") {
+    return callCloud("dishes", { action: "random", state });
   },
 
-  getRandomCombo(state = '') {
-    const suffix = state ? `?state=${encodeURIComponent(state)}` : '';
-    return request(`/api/recommend/random${suffix}`);
-  },
-
+  // ===== 订单 =====
   createOrder(order) {
-    return request('/api/orders', {
-      method: 'POST',
-      data: order
-    });
+    return callCloud("orders", { action: "create", data: order });
   },
-
   getOrder(id) {
-    return request(`/api/orders/${id}`);
+    return callCloud("orders", { action: "get", id });
   },
 
+  // ===== 管理端（男友） =====
   getAdminOrders() {
-    return request('/api/admin/orders');
+    return callCloud("admin", { action: "orders" });
   },
-
   createDish(dish) {
-    return request('/api/admin/dishes', {
-      method: 'POST',
-      data: dish
-    });
+    return callCloud("admin", { action: "addDish", dishData: dish });
   },
-
   updateDish(id, patch) {
-    return request(`/api/admin/dishes/${id}`, {
-      method: 'PUT',
-      data: patch
-    });
+    return callCloud("admin", { action: "updateDish", id, dishData: patch });
   }
 };

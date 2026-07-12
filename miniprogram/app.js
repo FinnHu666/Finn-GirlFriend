@@ -1,8 +1,17 @@
 App({
+  onLaunch() {
+    // 初始化微信云开发
+    if (wx.cloud) {
+      wx.cloud.init({
+        env: "你的云开发环境ID" // 开通云开发后替换为实际环境 ID
+      });
+    }
+  },
+
   globalData: {
-    cartKey: 'feeding_cart',
-    latestOrderKey: 'latest_order',
-    authKey: 'auth_session'
+    cartKey: "feeding_cart",
+    latestOrderKey: "latest_order",
+    authKey: "auth_session"
   },
 
   getSession() {
