@@ -1,9 +1,9 @@
 {
   "name": "girlfriend-menu",
   "description": "女友电子点菜菜单 - Node.js 后端 API",
-  "containerPort": 80,
+  "containerPort": 3000,
   "envParams": {
-    "PORT": "80",
+    "PORT": "3000",
     "GIRLFRIEND_USERNAME": "girlfriend",
     "GIRLFRIEND_PASSWORD": "123456",
     "BOYFRIEND_USERNAME": "boyfriend",

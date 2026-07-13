@@ -18,11 +18,11 @@ RUN mkdir -p /app/data
 # 安装依赖（仅生产依赖）
 RUN npm install --omit=dev
 
-# 云托管默认监听 80 端口
-EXPOSE 80
+# 云托管健康检查默认探测 3000 端口
+EXPOSE 3000
 
-# 设置环境变量
-ENV PORT=80
+# 设置端口（与云托管健康检查一致）
+ENV PORT=3000
 
 # 启动服务
 CMD ["node", "src/index.js"]

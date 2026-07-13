@@ -7,8 +7,8 @@ module.exports = {
   // 本地服务器地址
   API_BASE_URL: 'http://localhost:3000',
 
-  // 云托管环境 ID（部署后替换为你的环境 ID）
-  CLOUD_ENV: '你的云托管环境ID',
+  // 云托管环境 ID
+  CLOUD_ENV: 'prod-d8gqx4z5od98e2c0a',
 
   // 云托管服务名（与 container.config.json 中 name 一致）
   CLOUD_SERVICE: 'girlfriend-menu'
