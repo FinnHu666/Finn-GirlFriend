@@ -109,6 +109,13 @@
   background: #ff7f9a;
 }
 
+.custom-time-tip {
+  margin-top: 14rpx;
+  color: #b5526b;
+  font-size: 24rpx;
+  font-weight: 800;
+}
+
 .estimate {
   margin: 24rpx 0 18rpx;
   color: #b5526b;

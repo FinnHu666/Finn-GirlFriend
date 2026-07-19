@@ -20,8 +20,16 @@
     <button class="menu-item" bindtap="goOrder">
       <text>🧾</text>
       <view>
-        <view>今日点菜单</view>
+        <view>{{user.role === 'girlfriend' ? '继续点菜' : '今日菜单'}}</view>
         <view>查看当前已选菜品</view>
+      </view>
+    </button>
+
+    <button wx:if="{{user.role === 'girlfriend'}}" class="menu-item" bindtap="loadOrders">
+      <text>🕘</text>
+      <view>
+        <view>我的点单历史</view>
+        <view>查看每一次下单和男友处理进度</view>
       </view>
     </button>
 
@@ -33,11 +41,11 @@
       </view>
     </button>
 
-    <button wx:if="{{user.role === 'boyfriend'}}" class="menu-item" bindtap="loadOrders">
+    <button wx:if="{{user.role === 'boyfriend'}}" class="menu-item" bindtap="goManage">
       <text>📬</text>
       <view>
         <view>收到的订单</view>
-        <view>查看女友提交的投喂订单</view>
+        <view>进入订单工作台查看完整信息</view>
       </view>
     </button>
 
@@ -51,10 +59,13 @@
   </view>
 
   <view wx:if="{{orders.length}}" class="orders card">
-    <view class="orders-title">最近订单</view>
+    <view class="orders-title">{{user.role === 'girlfriend' ? '我的历史订单' : '最近收到的订单'}}</view>
     <view wx:for="{{orders}}" wx:key="id" class="order-row">
-      <view>{{item.expectedTime}} · {{item.hungerLevel}}</view>
+      <view>{{item.status || '已提交'}} · {{item.expectedTime}} · {{item.hungerLevel}}</view>
       <text>{{item.itemsText}}</text>
+      <text class="order-detail">{{item.createdAtText}}｜心情：{{item.mood}}{{item.note ? '｜备注：' + item.note : ''}}</text>
     </view>
   </view>
+
+  <view wx:if="{{loggedIn && !orders.length}}" class="orders card empty-orders">还没有历史订单，去选一道想吃的菜吧。</view>
 </view>

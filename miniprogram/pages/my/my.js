@@ -22,6 +22,9 @@ Page({
       roleText: user.role === 'boyfriend' ? '男友端' : '女友端',
       orders: []
     });
+    if (session && session.token) {
+      this.loadOrders();
+    }
   },
 
   goLogin(event) {
@@ -38,12 +41,13 @@ Page({
   },
 
   loadOrders() {
-    api.getAdminOrders()
+    api.getMyOrders()
       .then(orders => {
         this.setData({
-          orders: orders.slice(0, 5).map(order => ({
+          orders: orders.map(order => ({
             ...order,
-            itemsText: order.items.map(item => item.dishName).join('、')
+            itemsText: order.items.map(item => item.dishName).join('、'),
+            createdAtText: (order.date || '').replace('T', ' ').slice(0, 16)
           }))
         });
       })

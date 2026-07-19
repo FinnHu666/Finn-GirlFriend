@@ -6,34 +6,64 @@
     </view>
   </view>
 
-  <view class="admin-form card">
-    <view class="form-title">新增菜品</view>
-    <input class="input" placeholder="菜名，比如：红烧肉" value="{{form.name}}" data-field="name" bindinput="onFormInput" />
-    <input class="input" placeholder="Emoji，比如：🍖" value="{{form.emoji}}" data-field="emoji" bindinput="onFormInput" />
-    <textarea class="textarea" placeholder="菜品描述" value="{{form.description}}" data-field="description" bindinput="onFormInput" />
-    <view class="option-row">
-      <view wx:for="{{categoriesWithoutAll}}" wx:key="id" class="option {{form.category === item.id ? 'active' : ''}}" bindtap="chooseCategory" data-id="{{item.id}}">{{item.name}}</view>
-    </view>
-    <button class="primary-btn" bindtap="createDish">新增到菜单</button>
+  <view class="tab-row card">
+    <view class="tab {{activeTab === 'dishes' ? 'active' : ''}}" bindtap="changeTab" data-tab="dishes">🍳 菜品管理</view>
+    <view class="tab {{activeTab === 'orders' ? 'active' : ''}}" bindtap="changeTab" data-tab="orders">📬 女友订单</view>
   </view>
 
-  <view class="section-title">
-    <text>菜品列表</text>
-    <button class="ghost-btn" bindtap="loadData">刷新</button>
-  </view>
-
-  <view class="manage-list">
-    <view wx:for="{{dishes}}" wx:key="id" class="manage-card card">
-      <view class="manage-main">
-        <view class="manage-title">{{item.emoji}} {{item.name}}</view>
-        <view class="manage-meta">分类：{{item.categoryName}}｜标签：{{item.tagsText}}</view>
-        <view class="manage-meta">推荐：{{item.recommended ? '是' : '否'}}｜隐藏：{{item.hidden ? '是' : '否'}}｜状态：{{item.available ? '上架' : '下架'}}</view>
+  <block wx:if="{{activeTab === 'dishes'}}">
+    <view class="admin-form card">
+      <view class="form-title">新增菜品</view>
+      <input class="input" placeholder="菜名，比如：红烧肉" value="{{form.name}}" data-field="name" bindinput="onFormInput" />
+      <view class="form-grid">
+        <input class="input" placeholder="Emoji：🍖" value="{{form.emoji}}" data-field="emoji" bindinput="onFormInput" />
+        <input class="input" type="number" placeholder="制作分钟" value="{{form.cookTime}}" data-field="cookTime" bindinput="onFormInput" />
       </view>
-      <view class="manage-actions">
-        <button bindtap="toggleRecommend" data-id="{{item.id}}" data-value="{{item.recommended}}">{{item.recommended ? '取消推荐' : '推荐'}}</button>
-        <button bindtap="toggleHidden" data-id="{{item.id}}" data-value="{{item.hidden}}">{{item.hidden ? '取消隐藏' : '隐藏'}}</button>
-        <button bindtap="toggleAvailable" data-id="{{item.id}}" data-value="{{item.available}}">{{item.available ? '下架' : '恢复'}}</button>
+      <input class="input" placeholder="标签，使用逗号分隔，例如：下饭,热乎" value="{{form.tags}}" data-field="tags" bindinput="onFormInput" />
+      <textarea class="textarea" placeholder="菜品描述" value="{{form.description}}" data-field="description" bindinput="onFormInput" />
+      <view class="option-row">
+        <view wx:for="{{categoriesWithoutAll}}" wx:key="id" class="option {{form.category === item.id ? 'active' : ''}}" bindtap="chooseCategory" data-id="{{item.id}}">{{item.name}}</view>
+      </view>
+      <button class="primary-btn" bindtap="createDish">新增到菜单</button>
+    </view>
+
+    <view class="section-title">
+      <text>菜品列表</text>
+      <button class="ghost-btn" bindtap="loadData">刷新</button>
+    </view>
+    <view class="option-row filter-row">
+      <view wx:for="{{dishFilterOptions}}" wx:key="id" class="option {{dishFilter === item.id ? 'active' : ''}}" bindtap="chooseDishFilter" data-id="{{item.id}}">{{item.name}}</view>
+    </view>
+
+    <view class="manage-list">
+      <view wx:for="{{displayedDishes}}" wx:key="id" class="manage-card card">
+        <view class="manage-main">
+          <view class="manage-title">{{item.emoji}} {{item.name}}</view>
+          <view class="manage-meta">分类：{{item.categoryName}}｜标签：{{item.tagsText || '未设置'}}｜约 {{item.cookTime}} 分钟</view>
+          <view class="manage-meta">推荐：{{item.recommended ? '是' : '否'}}｜隐藏：{{item.hidden ? '是' : '否'}}｜状态：{{item.available ? '上架' : '下架'}}</view>
+        </view>
+        <view class="manage-actions">
+          <button bindtap="toggleRecommend" data-id="{{item.id}}">{{item.recommended ? '取消推荐' : '推荐'}}</button>
+          <button bindtap="toggleHidden" data-id="{{item.id}}">{{item.hidden ? '取消隐藏' : '隐藏'}}</button>
+          <button bindtap="toggleAvailable" data-id="{{item.id}}">{{item.available ? '下架' : '恢复'}}</button>
+        </view>
       </view>
     </view>
-  </view>
+  </block>
+
+  <block wx:else>
+    <view wx:if="{{orders.length}}" class="order-list">
+      <view wx:for="{{orders}}" wx:key="id" class="admin-order card">
+        <view class="admin-order-title"><text>{{item.createdByName}} 的点单</text><text class="status">{{item.status || '已提交'}}</text></view>
+        <view class="order-meta">下单：{{item.createdAtText}}｜期望：{{item.expectedTime}}｜制作约 {{item.totalCookTime}} 分钟</view>
+        <view class="order-items">{{item.itemsText}}</view>
+        <view class="order-meta">饥饿：{{item.hungerLevel}}｜心情：{{item.mood}}</view>
+        <view wx:if="{{item.note}}" class="order-note">备注：{{item.note}}</view>
+        <view class="manage-actions">
+          <button wx:for="{{orderStatuses}}" wx:for-item="statusItem" wx:key="*this" class="{{item.status === statusItem ? 'selected' : ''}}" bindtap="updateOrderStatus" data-id="{{item.id}}" data-status="{{statusItem}}">{{statusItem}}</button>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="empty card">暂时还没有收到女友的订单。</view>
+  </block>
 </view>

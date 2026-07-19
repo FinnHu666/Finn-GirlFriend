@@ -17,13 +17,16 @@ function request(path, options = {}) {
     // ========= 云托管模式 =========
     return wx.cloud.callContainer({
       config: {
-        env: config.CLOUD_ENV,
-        serviceName: config.CLOUD_SERVICE
+        env: config.CLOUD_ENV
       },
       path: path,
       method: options.method || 'GET',
       data: options.data,
-      header: header
+      header: {
+        ...header,
+        // 微信云托管服务名必须通过这个请求头传递
+        'X-WX-SERVICE': config.CLOUD_SERVICE
+      }
     }).then(res => {
       if (res.statusCode >= 200 && res.statusCode < 300) {
         return res.data;
@@ -119,12 +122,23 @@ module.exports = {
     });
   },
 
+  getMyOrders() {
+    return request('/api/orders');
+  },
+
   getOrder(id) {
     return request('/api/orders/' + id);
   },
 
   getAdminOrders() {
     return request('/api/admin/orders');
+  },
+
+  updateOrder(id, patch) {
+    return request('/api/admin/orders/' + id, {
+      method: 'PUT',
+      data: patch
+    });
   },
 
   createDish(dish) {

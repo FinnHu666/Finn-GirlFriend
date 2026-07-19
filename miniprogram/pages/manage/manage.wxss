@@ -2,6 +2,27 @@
   padding: 26rpx;
 }
 
+.tab-row {
+  display: flex;
+  padding: 10rpx;
+  gap: 10rpx;
+}
+
+.tab {
+  flex: 1;
+  padding: 18rpx;
+  border-radius: 16rpx;
+  color: #92736c;
+  text-align: center;
+  font-size: 27rpx;
+  font-weight: 900;
+}
+
+.tab.active {
+  color: #fff;
+  background: #ff7f9a;
+}
+
 .form-title {
   margin-bottom: 18rpx;
   font-size: 32rpx;
@@ -10,6 +31,12 @@
 
 .input, .textarea {
   margin-bottom: 16rpx;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16rpx;
 }
 
 .option-row {
@@ -38,6 +65,10 @@
 .manage-list {
   display: grid;
   gap: 18rpx;
+}
+
+.filter-row {
+  margin: 0 0 18rpx;
 }
 
 .manage-card {
@@ -70,4 +101,55 @@
   background: #fff0f4;
   font-size: 23rpx;
   font-weight: 800;
+}
+
+.manage-actions button.selected {
+  color: #fff;
+  background: #ff7f9a;
+}
+
+.order-list {
+  display: grid;
+  gap: 18rpx;
+}
+
+.admin-order {
+  padding: 24rpx;
+}
+
+.admin-order-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 16rpx;
+  font-size: 30rpx;
+  font-weight: 900;
+}
+
+.status {
+  padding: 4rpx 14rpx;
+  border-radius: 999rpx;
+  color: #b5526b;
+  background: #fff0f4;
+  font-size: 22rpx;
+}
+
+.order-meta, .order-note {
+  margin-top: 12rpx;
+  color: #92736c;
+  font-size: 24rpx;
+  line-height: 1.55;
+}
+
+.order-items {
+  margin-top: 14rpx;
+  color: #3d2b28;
+  font-size: 27rpx;
+  font-weight: 800;
+  line-height: 1.6;
+}
+
+.order-note {
+  padding: 12rpx 16rpx;
+  border-radius: 14rpx;
+  background: #fff8e6;
 }

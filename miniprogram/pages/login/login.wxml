@@ -12,7 +12,7 @@
     <input class="input" placeholder="账号" value="{{username}}" bindinput="onUsernameInput" />
     <input class="input" placeholder="密码" password value="{{password}}" bindinput="onPasswordInput" />
 
-    <button class="primary-btn" bindtap="submitLogin" style="position: relative; left: -1rpx; top: 12rpx">登录</button>
+    <button class="primary-btn login-submit" bindtap="submitLogin">登录</button>
 
     <!-- <view class="hint">
       默认女友账号：girlfriend / 123456<br />默认男友账号：boyfriend / 123456

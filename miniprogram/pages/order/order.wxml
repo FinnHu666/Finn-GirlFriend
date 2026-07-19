@@ -41,8 +41,9 @@
 
     <view class="form-title">期望用餐时间</view>
     <view class="option-row">
-      <view wx:for="{{timeOptions}}" wx:key="*this" class="option {{expectedTime === item ? 'active' : ''}}" bindtap="chooseTime" data-value="{{item}}">{{item}}</view>
+      <view wx:for="{{timeOptions}}" wx:key="*this" class="option {{(item === '自定义' ? !!customTime : expectedTime === item) ? 'active' : ''}}" bindtap="chooseTime" data-value="{{item}}">{{item}}</view>
     </view>
+    <view wx:if="{{customTime}}" class="custom-time-tip">已选择自定义时间：{{customTime}}</view>
 
     <view class="form-title">给男友的备注</view>
     <textarea class="textarea" placeholder="今天想吃热乎一点的" value="{{note}}" bindinput="onNoteInput" />

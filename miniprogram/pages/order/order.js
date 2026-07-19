@@ -10,6 +10,7 @@ Page({
     hungerLevel: '正常饿',
     mood: '开心',
     expectedTime: '19:00',
+    customTime: '',
     note: '',
     totalCookTime: 0
   },
@@ -60,7 +61,26 @@ Page({
   },
 
   chooseTime(event) {
-    this.setData({ expectedTime: event.currentTarget.dataset.value });
+    const value = event.currentTarget.dataset.value;
+    if (value !== '自定义') {
+      this.setData({ expectedTime: value, customTime: '' });
+      return;
+    }
+    wx.showModal({
+      title: '自定义用餐时间',
+      editable: true,
+      placeholderText: '例如 20:15',
+      content: this.data.customTime || this.data.expectedTime,
+      success: res => {
+        if (!res.confirm) return;
+        const time = (res.content || '').trim();
+        if (!/^([01]?\d|2[0-3]):[0-5]\d$/.test(time)) {
+          wx.showToast({ title: '请按 20:15 的格式填写', icon: 'none' });
+          return;
+        }
+        this.setData({ expectedTime: time, customTime: time });
+      }
+    });
   },
 
   onNoteInput(event) {

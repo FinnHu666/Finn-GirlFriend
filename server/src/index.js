@@ -294,11 +294,23 @@ async function route(req, res) {
       note: body.note || '',
       totalCookTime: Number(body.totalCookTime) || body.items.reduce((sum, item) => sum + (Number(item.cookTime) || 0), 0),
       status: '已提交',
-      reply: db.copywriting.successReply
+      reply: db.copywriting.successReply,
+      updatedAt: new Date().toISOString()
     };
     db.orders.unshift(order);
     writeDb(db);
     sendJson(res, 201, order);
+    return;
+  }
+
+  // 女友查看自己的历史订单；男友查看全部订单。
+  if (req.method === 'GET' && url.pathname === '/api/orders') {
+    const user = requireUser(req, res, db);
+    if (!user) return;
+    const orders = user.role === 'boyfriend'
+      ? db.orders
+      : db.orders.filter(order => order.createdBy === user.id);
+    sendJson(res, 200, orders);
     return;
   }
 
@@ -311,6 +323,10 @@ async function route(req, res) {
       notFound(res);
       return;
     }
+    if (user.role !== 'boyfriend' && order.createdBy !== user.id) {
+      forbidden(res, '只能查看自己的订单哦');
+      return;
+    }
     sendJson(res, 200, order);
     return;
   }
@@ -319,6 +335,33 @@ async function route(req, res) {
     const user = requireRole(req, res, db, 'boyfriend');
     if (!user) return;
     sendJson(res, 200, db.orders);
+    return;
+  }
+
+  const adminOrderMatch = url.pathname.match(/^\/api\/admin\/orders\/([^/]+)$/);
+  if (req.method === 'PUT' && adminOrderMatch) {
+    const user = requireRole(req, res, db, 'boyfriend');
+    if (!user) return;
+    const body = await readBody(req);
+    const index = db.orders.findIndex(item => item.id === adminOrderMatch[1]);
+    if (index < 0) {
+      notFound(res);
+      return;
+    }
+    const allowedStatuses = ['已提交', '准备中', '已完成', '已取消'];
+    if (body.status && !allowedStatuses.includes(body.status)) {
+      badRequest(res, '订单状态不正确');
+      return;
+    }
+    db.orders[index] = {
+      ...db.orders[index],
+      ...(body.status ? { status: body.status } : {}),
+      ...(typeof body.reply === 'string' ? { reply: body.reply.trim() } : {}),
+      updatedAt: new Date().toISOString(),
+      updatedBy: user.id
+    };
+    writeDb(db);
+    sendJson(res, 200, db.orders[index]);
     return;
   }
 

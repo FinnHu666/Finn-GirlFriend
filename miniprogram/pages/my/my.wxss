@@ -95,3 +95,14 @@
   font-size: 24rpx;
   line-height: 1.5;
 }
+
+.order-row .order-detail {
+  color: #af8c84;
+  font-size: 22rpx;
+}
+
+.empty-orders {
+  margin-top: 22rpx;
+  color: #92736c;
+  text-align: center;
+}
